@@ -44,4 +44,18 @@ contract Vote{
             candidates[index].voteCount += 1;
             voters[msg.sender].voted = true;
       }
+
+      function getWinner() public view returns (string memory){
+            uint winningVoteCount = 0;
+            uint winnerIndex;
+            
+            for(uint i = 0; i < candidates.length; i++){
+                  if(candidates[i].voteCount > winningVoteCount){
+                        winningVoteCount = candidates[i].voteCount;
+                        winnerIndex = i;
+                  }
+            }
+
+            return candidates[winnerIndex].name
+      }
 }
