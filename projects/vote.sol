@@ -22,6 +22,12 @@ contract Vote{
       }
 
       function addCandidate(string memory name) public {
+            for(uint i = 0; i < candidates.length; i++){
+                  if(candidates[i].name == name){
+                        require(candidates[i].name != name, "name already exist");
+                        break;
+                  }
+            }
             Candidates memory newCandidate = Candidates(name, 0);
             candidates.push(newCandidate);
       }
@@ -32,9 +38,9 @@ contract Vote{
       }
 
       function voteCandidate(uint index) public {
-            require( voters[msg.sender].voted = true, "allready voted")
-            candidates[index].voteCount += 1
+            require(owner != msg.sender, "owner cannot vote");
+            require(voters[msg.sender].voted = false, "already voted");
+            candidates[index].voteCount += 1;
             voters[msg.sender].voted = true;
       }
-
 }
