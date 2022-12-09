@@ -11,7 +11,6 @@ contract Vote{
             string name;
             uint voteCount;
       }
-
       address public owner;
 
       mapping(address => Voters) public voters;
@@ -55,8 +54,6 @@ contract Vote{
                         winnerIndex = i;
                   }
             }
-
-            if(winnerIndex > 0) return candidates[winnerIndex].name
-            else return "no winner yet!"
+            return candidates[winnerIndex].name
       }
 }
