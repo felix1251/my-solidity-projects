@@ -48,7 +48,7 @@ contract Vote{
       function getWinner() public view returns (string memory){
             uint winningVoteCount = 0;
             uint winnerIndex;
-            
+
             for(uint i = 0; i < candidates.length; i++){
                   if(candidates[i].voteCount > winningVoteCount){
                         winningVoteCount = candidates[i].voteCount;
@@ -56,6 +56,7 @@ contract Vote{
                   }
             }
 
-            return candidates[winnerIndex].name
+            if(winnerIndex > 0) return candidates[winnerIndex].name
+            else return "no winner yet!"
       }
 }
