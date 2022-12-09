@@ -33,13 +33,14 @@ contract Vote{
       }
 
       function registerVoter(address voterAddress) public {
+            require(voters[voterAddress] == false, "voter already exist")
             Voters memory newVoter = Voters(block.timestamp, false);
             voters[voterAddress] = newVoter;
       }
 
       function voteCandidate(uint index) public {
             require(owner != msg.sender, "owner cannot vote");
-            require(voters[msg.sender].voted = false, "already voted");
+            require(voters[msg.sender].voted == false, "already voted");
             candidates[index].voteCount += 1;
             voters[msg.sender].voted = true;
       }
