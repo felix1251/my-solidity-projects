@@ -1,3 +1,4 @@
+//SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
 contract TodoList{
@@ -8,7 +9,7 @@ contract TodoList{
       }
 
       address public owner;
-      Todos[] public toDo;
+      Todos[] private toDo;
 
       constructor() {
             owner = msg.sender;
@@ -21,5 +22,9 @@ contract TodoList{
 
       function viewTodoList() public view returns (Todos[] memory){
             return toDo;
+      }
+
+      function see(uint index) public view returns(Todos memory){
+            return toDo[index];
       }
 }

@@ -12,6 +12,10 @@ contract Auth{
       mapping (uint => Users) users;
       uint[] userIds;
 
+      constructor() {
+            owner = msg.sender;
+      }
+
       function createUser(name, username, password) public{
             for(uint i = 0; i < userIds.length; i++){
                   if(users[userIds[i]].username == username){
