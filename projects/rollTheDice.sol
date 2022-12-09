@@ -9,13 +9,13 @@ contract RollTheDice{
       constructor() {
             owner = msg.sender;
             for(uint i = 0; i < 8; i++){
-                  dice.push(i+1)
+                  dice.push(i+1);
             }
       }
 
       function roller() public view returns(uint){
-            uint randomIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % dice.length;
-            return dice[randomIndex]
+            uint randomIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, dice))) % dice.length;
+            return dice[randomIndex];
       }
 
 }
