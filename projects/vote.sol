@@ -32,7 +32,9 @@ contract Vote{
       }
 
       function voteCandidate(uint index) public {
-            
+            require( voters[msg.sender].voted = true, "allready voted")
+            candidates[index].voteCount += 1
+            voters[msg.sender].voted = true;
       }
 
 }
