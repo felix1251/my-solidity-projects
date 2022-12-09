@@ -3,6 +3,7 @@ pragma solidity >=0.7.0 <0.9.0;
 contract Auth{
 
       struct Users {
+            uint id;
             string name;
             string username;
             string password;
@@ -19,13 +20,14 @@ contract Auth{
                   }
             }
 
-            Users memory newUser = Users(name, username, password);
             uint randomId;
 
             while (true) {
                   randomId = block.timestamp;
                   if(userIds[randomId].exists == false) break;
             }
+
+            Users memory newUser = Users(randomId, name, username, password);
 
             users[randomId] = newUser
             userIds.push(randomId)
