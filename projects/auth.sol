@@ -1,50 +1,59 @@
+//SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
-contract Auth{
+contract Vote{
 
-      struct Users {
-            uint id;
-            string name;
-            string username;
-            string password;
+      struct Voters {
+            uint timestamp;
+            bool voted;
       }
 
-      mapping (uint => Users) users;
-      uint[] userIds;
+      struct Candidates {
+            string name;
+            uint voteCount;
+      }
+      address public owner;
+
+      mapping(address => Voters) public voters;
+      Candidates[] public candidates;
 
       constructor() {
             owner = msg.sender;
       }
 
-      function createUser(name, username, password) public{
-            for(uint i = 0; i < userIds.length; i++){
-                  if(users[userIds[i]].username == username){
-                        require(users[userIds[i]].username != username, "username already exist")
+      function addCandidate(string memory name) public {
+            for(uint i = 0; i < candidates.length; i++){
+                  if(keccak256(bytes(candidates[i].name)) == keccak256(bytes(name))) {
+                        require(keccak256(bytes(candidates[i].name)) != keccak256(bytes(name)), "name already exist");
                         break;
                   }
             }
-
-            uint randomId;
-
-            while (true) {
-                  randomId = block.timestamp;
-                  if(userIds[randomId].exists == false) break;
-            }
-
-            Users memory newUser = Users(randomId, name, username, password);
-
-            users[randomId] = newUser
-            userIds.push(randomId)
+            Candidates memory newCandidate = Candidates(name, 0);
+            candidates.push(newCandidate);
       }
 
-      function findUser(string username) public view returns(Users) {
-            Users memory _user = new Users;
-            for(uint i = 0; i < userIds.length; i++){
-                  if(users[userIds[i]].username == username){
-                        _user = users[userIds[i]];
-                        break;
+      function registerVoter(address voterAddress) public {
+            Voters memory newVoter = Voters(block.timestamp, false);
+            voters[voterAddress] = newVoter;
+      }
+
+      function voteCandidate(uint index) public {
+            require(owner != msg.sender, "owner cannot vote");
+            require(voters[msg.sender].voted == false, "already voted");
+            candidates[index].voteCount += 1;
+            voters[msg.sender].voted = true;
+      }
+
+      function getWinner() public view returns (string memory){
+            uint winningVoteCount = 0;
+            uint winnerIndex;
+
+            for(uint i = 0; i < candidates.length; i++){
+                  if(candidates[i].voteCount > winningVoteCount){
+                        winningVoteCount = candidates[i].voteCount;
+                        winnerIndex = i;
                   }
             }
-            return _user;
+            return candidates[winnerIndex].name;
       }
 }
