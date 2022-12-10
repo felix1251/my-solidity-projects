@@ -17,8 +17,8 @@ contract PrimeNumbers{
                               }
                         }
                   }
-                  if(isPrime) _msg +=  arr[i] + "is a prime ";
-                  else _msg +=  arr[i] + "is not a prime ";
+                  if(isPrime) _msg +=  "--" + arr[i] + "is a prime--";
+                  else _msg +=  "--" + arr[i] + "is not a prime--";
             }
             return _msg;
       }
